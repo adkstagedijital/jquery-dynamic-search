@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Clothing Search</title>
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/css/bootstrap.min.css">
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+
+        .container {
+            text-align: center;
+        }
+
+        .input-group {
+            max-width: 400px;
+            margin: 0 auto;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1 class="mb-4">Clothing Store Product Search</h1>
+        <div class="input-group mb-3">
+            <input type="text" id="searchBox" class="form-control" placeholder="Search for product...">
+        </div>
+        <ul id="productList" class="list-group">
+            <!-- Products will be dynamically listed here -->
+        </ul>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/5.0.0/js/bootstrap.bundle.min.js"></script>
+
+    <script>
+        $(document).ready(function() {
+            var products = [
+                { "id": 1, "oem": "A12345", "name": "Shirt", "slug": "shirt" },
+                { "id": 2, "oem": "B67890", "name": "Pants", "slug": "pants" },
+                { "id": 3, "oem": "C24680", "name": "Dress", "slug": "dress" },
+                { "id": 4, "oem": "D13579", "name": "Jacket", "slug": "jacket" },
+                { "id": 5, "oem": "E98765", "name": "Shoes", "slug": "shoes" },
+                { "id": 6, "oem": "F24680", "name": "Tracksuit", "slug": "tracksuit" },
+                { "id": 7, "oem": "G13579", "name": "Hat", "slug": "hat" },
+                { "id": 8, "oem": "H98765", "name": "Glasses", "slug": "glasses" },
+                { "id": 9, "oem": "I98765", "name": "Sweatshirt", "slug": "sweatshirt" },
+                { "id": 10, "oem": "J98765", "name": "Gloves", "slug": "gloves" },
+                { "id": 11, "oem": "K98765", "name": "Coat", "slug": "coat" },
+                { "id": 12, "oem": "L98765", "name": "Skirt", "slug": "skirt" },
+                { "id": 13, "oem": "M98765", "name": "Wallet", "slug": "wallet" },
+                { "id": 14, "oem": "N98765", "name": "Scarf", "slug": "scarf" },
+                { "id": 15, "oem": "O98765", "name": "Sweater", "slug": "sweater" },
+                { "id": 16, "oem": "P98765", "name": "Shirt", "slug": "shirt2" },
+                { "id": 17, "oem": "Q98765", "name": "Jacket", "slug": "jacket2" },
+                { "id": 18, "oem": "R98765", "name": "Coat", "slug": "coat2" },
+                { "id": 19, "oem": "S98765", "name": "Shoes", "slug": "shoes2" },
+                { "id": 20, "oem": "T98765", "name": "Pants", "slug": "pants2" },
+                { "id": 21, "oem": "U98765", "name": "Shirt", "slug": "shirt3" },
+                { "id": 22, "oem": "V98765", "name": "Tracksuit", "slug": "tracksuit2" },
+                { "id": 23, "oem": "W98765", "name": "Dress", "slug": "dress2" },
+                { "id": 24, "oem": "X98765", "name": "Hat", "slug": "hat2" },
+                { "id": 25, "oem": "Y98765", "name": "Wallet", "slug": "wallet2" },
+                { "id": 26, "oem": "Z98765", "name": "Glasses", "slug": "glasses2" },
+                { "id": 27, "oem": "A12346", "name": "Coat", "slug": "coat3" },
+                { "id": 28, "oem": "B67891", "name": "Skirt", "slug": "skirt2" },
+                { "id": 29, "oem": "C24681", "name": "Scarf", "slug": "scarf2" },
+                { "id": 30, "oem": "D13580", "name": "Sweater", "slug": "sweater2" },
+                { "id": 31, "oem": "E98766", "name": "Tracksuit", "slug": "tracksuit3" },
+                { "id": 32, "oem": "F24681", "name": "Jacket", "slug": "jacket3" },
+                { "id": 33, "oem": "G13580", "name": "Coat", "slug": "coat4" },
+                { "id": 34, "oem": "H98766", "name": "Shoes", "slug": "shoes3" },
+                { "id": 35, "oem": "I98766", "name": "Pants", "slug": "pants3" },
+                { "id": 36, "oem": "J98766", "name": "Shirt", "slug": "shirt4" },
+                { "id": 37, "oem": "K98766", "name": "Tracksuit", "slug": "tracksuit4" },
+                { "id": 38, "oem": "L98766", "name": "Dress", "slug": "dress3" },
+                { "id": 39, "oem": "M98766", "name": "Hat", "slug": "hat3" },
+                { "id": 40, "oem": "N98766", "name": "Wallet", "slug": "wallet3" },
+                { "id": 41, "oem": "O98766", "name": "Glasses", "slug": "glasses3" },
+                { "id": 42, "oem": "P98766", "name": "Coat", "slug": "coat5" },
+                { "id": 43, "oem": "Q98766", "name": "Skirt", "slug": "skirt3" },
+                { "id": 44, "oem": "R98766", "name": "Scarf", "slug": "scarf3" },
+                { "id": 45, "oem": "S98766", "name": "Sweater", "slug": "sweater3" },
+                { "id": 46, "oem": "T98766", "name": "Shirt", "slug": "shirt5" },
+                { "id": 47, "oem": "U98766", "name": "Tracksuit", "slug": "tracksuit5" },
+                { "id": 48, "oem": "V98766", "name": "Dress", "slug": "dress4" },
+                { "id": 49, "oem": "W98766", "name": "Hat", "slug": "hat4" },
+                { "id": 50, "oem": "X98766", "name": "Wallet", "slug": "wallet4" },
+            ];
+
+            $('#searchBox').on('input', function() {
+                var searchTerm = $(this).val().toLowerCase();
+                $('#productList').empty();
+
+                if (searchTerm !== "") {
+                    for (var i = 0; i < products.length; i++) {
+                        var productName = products[i].name.toLowerCase();
+                        var productID = products[i].id.toString();
+                        var productOEM = products[i].oem.toLowerCase();
+
+                        if (productName.includes(searchTerm) || productID.includes(searchTerm) || productOEM.includes(searchTerm)) {
+                            $('#productList').append('<li class="list-group-item">ID: ' + products[i].id + ' - OEM: ' + products[i].oem + ' - Name: ' + products[i].name + ' - Slug: ' + products[i].slug + '</li>');
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
